@@ -47,20 +47,36 @@ const PRODUCTS = [
   }
 ];
 
-let cart = JSON.parse(localStorage.getItem('sr_cart') || '[]');
+let cart = [];
+try {
+  cart = JSON.parse(localStorage.getItem('sr_cart') || '[]');
+  if (!Array.isArray(cart)) cart = [];
+} catch (e) {
+  cart = [];
+}
 
 // ---- Navigation ----
 function showSection(id) {
+  const target = document.getElementById(id);
+  if (!target) return;
+
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+  target.classList.add('active');
+
   document.querySelectorAll('.nav-link').forEach(l => {
     l.classList.toggle('active', l.dataset.section === id);
   });
+
+  // Close mobile nav if open
+  const mobileNav = document.getElementById('mobileNav');
+  if (mobileNav) mobileNav.classList.remove('open');
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleMobileNav() {
-  document.getElementById('mobileNav').classList.toggle('open');
+  const nav = document.getElementById('mobileNav');
+  if (nav) nav.classList.toggle('open');
 }
 
 // ---- Products ----
@@ -68,12 +84,15 @@ function renderProducts(targetId, filter = 'all') {
   const container = document.getElementById(targetId);
   if (!container) return;
 
-  let list = PRODUCTS;
+  let list = PRODUCTS.slice();
+
   if (filter !== 'all') {
-    list = PRODUCTS.filter(p => String(p.seeds) === filter || (filter === 'limited' && p.id === 'sr-limited'));
+    list = PRODUCTS.filter(p =>
+      String(p.seeds) === filter || (filter === 'limited' && p.id === 'sr-limited')
+    );
   }
 
-  // For home, show only first 3
+  // Home only shows first 3
   if (targetId === 'homeProducts') {
     list = PRODUCTS.slice(0, 3);
   }
@@ -101,18 +120,13 @@ function renderProducts(targetId, filter = 'all') {
   `).join('');
 }
 
-// Filters
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderProducts('shopProducts', btn.dataset.filter);
-  });
-});
-
 // ---- Cart ----
 function saveCart() {
-  localStorage.setItem('sr_cart', JSON.stringify(cart));
+  try {
+    localStorage.setItem('sr_cart', JSON.stringify(cart));
+  } catch (e) {
+    // storage full or blocked — continue without persistence
+  }
   updateCartUI();
 }
 
@@ -150,6 +164,7 @@ function updateCartUI() {
   const countEl = document.getElementById('cartCount');
   const itemsEl = document.getElementById('cartItems');
   const totalEl = document.getElementById('cartTotal');
+  if (!countEl || !itemsEl || !totalEl) return;
 
   const totalItems = cart.reduce((sum, i) => sum + i.qty, 0);
   countEl.textContent = totalItems;
@@ -187,8 +202,10 @@ function updateCartUI() {
 }
 
 function toggleCart() {
-  document.getElementById('cartDrawer').classList.toggle('open');
-  document.getElementById('cartOverlay').classList.toggle('open');
+  const drawer = document.getElementById('cartDrawer');
+  const overlay = document.getElementById('cartOverlay');
+  if (drawer) drawer.classList.toggle('open');
+  if (overlay) overlay.classList.toggle('open');
 }
 
 function checkout() {
@@ -197,7 +214,6 @@ function checkout() {
     return;
   }
   showToast('Demo only — no real checkout. Thanks for vibing!');
-  // In a real store this would redirect to Stripe / Shopify / etc.
   setTimeout(() => {
     cart = [];
     saveCart();
@@ -208,6 +224,7 @@ function checkout() {
 // ---- Toast ----
 function showToast(msg) {
   const toast = document.getElementById('toast');
+  if (!toast) return;
   toast.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2400);
@@ -216,12 +233,21 @@ function showToast(msg) {
 // ---- Contact form (demo) ----
 function handleContact(e) {
   e.preventDefault();
-  showToast('Message received (demo). We\'ll get back to you!');
+  showToast("Message received (demo). We'll get back to you!");
   e.target.reset();
 }
 
 // ---- Init ----
 document.addEventListener('DOMContentLoaded', () => {
+  // Filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProducts('shopProducts', btn.dataset.filter);
+    });
+  });
+
   renderProducts('homeProducts');
   renderProducts('shopProducts');
   updateCartUI();
