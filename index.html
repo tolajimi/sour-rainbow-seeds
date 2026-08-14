@@ -246,10 +246,116 @@
         <span>Total</span>
         <span id="cartTotal">$0.00</span>
       </div>
-      <button class="btn btn-primary btn-full" onclick="checkout()">Checkout</button>
-      <p class="cart-disclaimer">Demo checkout only. No real payment processing.</p>
+      <button class="btn btn-primary btn-full" onclick="openCheckout()">Checkout with Crypto</button>
+      <p class="cart-disclaimer">Crypto payments accepted. Novelty / collectible items only.</p>
     </div>
   </aside>
+
+  <!-- Checkout Modal -->
+  <div class="checkout-overlay" id="checkoutOverlay" onclick="closeCheckout(event)">
+    <div class="checkout-modal" onclick="event.stopPropagation()">
+      <div class="checkout-header">
+        <h3>Crypto Checkout</h3>
+        <button class="cart-close" onclick="closeCheckout()" aria-label="Close">×</button>
+      </div>
+
+      <div class="checkout-body">
+        <!-- Step 1: Order + Email -->
+        <div id="checkoutStep1">
+          <div class="checkout-order" id="checkoutOrderSummary"></div>
+
+          <div class="form-group" style="margin-top: 1.25rem;">
+            <label for="checkoutEmail">Email (for order confirmation)</label>
+            <input type="email" id="checkoutEmail" placeholder="you@example.com" required />
+          </div>
+
+          <div class="crypto-discount">
+            <span>⚡ Pay with crypto and save 10%</span>
+            <strong id="checkoutDiscountedTotal">$0.00</strong>
+          </div>
+
+          <button class="btn btn-primary btn-full" onclick="goToCryptoPayment()">
+            Continue to Crypto Payment
+          </button>
+        </div>
+
+        <!-- Step 2: Crypto Payment -->
+        <div id="checkoutStep2" style="display: none;">
+          <p class="checkout-instruction">
+            Send the exact amount below. Include your order ID in the memo / description if possible.
+          </p>
+
+          <div class="order-id-box">
+            Order ID: <strong id="checkoutOrderId"></strong>
+          </div>
+
+          <div class="crypto-amount-box">
+            <div class="crypto-amount-label">Amount due (10% crypto discount applied)</div>
+            <div class="crypto-amount" id="cryptoAmountDisplay">$0.00</div>
+          </div>
+
+          <div class="crypto-options">
+            <button class="crypto-option active" data-coin="btc" onclick="selectCoin('btc')">
+              <span class="coin-icon">₿</span>
+              <span>Bitcoin</span>
+            </button>
+            <button class="crypto-option" data-coin="eth" onclick="selectCoin('eth')">
+              <span class="coin-icon">Ξ</span>
+              <span>Ethereum</span>
+            </button>
+            <button class="crypto-option" data-coin="usdt" onclick="selectCoin('usdt')">
+              <span class="coin-icon">₮</span>
+              <span>USDT</span>
+            </button>
+            <button class="crypto-option" data-coin="ltc" onclick="selectCoin('ltc')">
+              <span class="coin-icon">Ł</span>
+              <span>Litecoin</span>
+            </button>
+          </div>
+
+          <div class="wallet-box">
+            <div class="wallet-label">Send to this address</div>
+            <div class="wallet-address" id="walletAddress">—</div>
+            <button class="btn btn-ghost btn-sm" onclick="copyWallet()">Copy Address</button>
+          </div>
+
+          <div class="form-group" style="margin-top: 1.25rem;">
+            <label for="txidInput">Transaction ID / TXID (after you send)</label>
+            <input type="text" id="txidInput" placeholder="Paste your TXID here" />
+          </div>
+
+          <button class="btn btn-primary btn-full" onclick="submitCryptoOrder()">
+            I’ve Sent Payment — Submit Order
+          </button>
+
+          <button class="btn btn-ghost btn-full" style="margin-top: 0.75rem;" onclick="backToStep1()">
+            ← Back
+          </button>
+
+          <p class="checkout-note">
+            After submitting, we’ll verify the payment and email your order confirmation.
+            Orders are typically confirmed within a few hours.
+          </p>
+        </div>
+
+        <!-- Step 3: Success -->
+        <div id="checkoutStep3" style="display: none; text-align: center; padding: 1.5rem 0;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🌈</div>
+          <h3 style="margin-bottom: 0.75rem;">Order Submitted!</h3>
+          <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+            Thanks! We’ve received your order and TXID.<br>
+            You’ll get a confirmation email once payment is verified.
+          </p>
+          <div class="order-id-box" style="margin-bottom: 1.5rem;">
+            Order ID: <strong id="finalOrderId"></strong>
+          </div>
+          <button class="btn btn-primary" onclick="closeCheckout(); clearCartAfterOrder();">
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast -->
   <div class="toast" id="toast"></div>
