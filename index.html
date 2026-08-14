@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sour Rainbow Seed Co. — Premium Cannabis Seeds</title>
+  <meta name="description" content="Sour Rainbow cannabis seeds. Vibrant candy-sour genetics. Feminized packs for collectors. Novelty & souvenir purposes only." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Legal Banner -->
+  <div class="legal-banner" id="legalBanner">
+    <p>
+      <strong>IMPORTANT:</strong> All seeds sold as novelty / souvenir / collectible items only. 
+      Germination may be illegal in your jurisdiction. Buyer is solely responsible for compliance with local, state, and federal laws. 
+      We do not ship to locations where cannabis seeds are prohibited.
+    </p>
+    <button class="banner-close" onclick="document.getElementById('legalBanner').style.display='none'" aria-label="Dismiss">×</button>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="logo" onclick="showSection('home')">
+        <span class="logo-icon">🌈</span>
+        <span class="logo-text">Sour Rainbow<span class="logo-sub">Seed Co.</span></span>
+      </a>
+      <nav class="main-nav">
+        <a href="#" onclick="showSection('home')" class="nav-link active" data-section="home">Home</a>
+        <a href="#" onclick="showSection('shop')" class="nav-link" data-section="shop">Shop</a>
+        <a href="#" onclick="showSection('strain')" class="nav-link" data-section="strain">The Strain</a>
+        <a href="#" onclick="showSection('about')" class="nav-link" data-section="about">About</a>
+        <a href="#" onclick="showSection('contact')" class="nav-link" data-section="contact">Contact</a>
+      </nav>
+      <button class="cart-btn" onclick="toggleCart()" aria-label="Open cart">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 6h15l-1.5 9h-12z"/>
+          <circle cx="9" cy="20" r="1"/>
+          <circle cx="18" cy="20" r="1"/>
+          <path d="M6 6L5 3H2"/>
+        </svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="mobile-toggle" onclick="toggleMobileNav()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#" onclick="showSection('home'); toggleMobileNav()">Home</a>
+    <a href="#" onclick="showSection('shop'); toggleMobileNav()">Shop</a>
+    <a href="#" onclick="showSection('strain'); toggleMobileNav()">The Strain</a>
+    <a href="#" onclick="showSection('about'); toggleMobileNav()">About</a>
+    <a href="#" onclick="showSection('contact'); toggleMobileNav()">Contact</a>
+  </div>
+
+  <!-- Main Content -->
+  <main>
+    <!-- HOME -->
+    <section id="home" class="section active">
+      <div class="hero">
+        <div class="hero-bg"></div>
+        <div class="container hero-content">
+          <div class="hero-badge">OG'naj Genetics Lineage</div>
+          <h1>Sour Rainbow</h1>
+          <p class="hero-tagline">Candy-sour terps. Vibrant purple hues. Mostly indica power with rainbow candy genetics.</p>
+          <p class="hero-desc">Rainbow Belts × SourD bx2. Feminized seeds selected for resin, color, and that unmistakable sour-candy gas.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="showSection('shop')">Shop Seeds</button>
+            <button class="btn btn-ghost" onclick="showSection('strain')">Explore Genetics</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container features">
+        <div class="feature-card">
+          <div class="feature-icon">🧬</div>
+          <h3>Elite Genetics</h3>
+          <p>Rainbow Belts pheno × Karma Genetics SourD bx2. Selected for branching, vigor, and late-flower color.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🍬</div>
+          <h3>Sour Candy Profile</h3>
+          <p>Aroma & flavor: sour gas, Zkittlez candy, tropical sweetness with a diesel backbone.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⏱️</div>
+          <h3>~63 Day Flower</h3>
+          <p>Mostly indica structure. Indoor-friendly with strong lateral branching and dense, colorful buds.</p>
+        </div>
+      </div>
+
+      <div class="container featured-products">
+        <div class="section-header">
+          <h2>Featured Packs</h2>
+          <p>Ready to collect. Limited drops.</p>
+        </div>
+        <div class="product-grid" id="homeProducts"></div>
+        <div class="text-center" style="margin-top: 2rem;">
+          <button class="btn btn-primary" onclick="showSection('shop')">View Full Shop</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOP -->
+    <section id="shop" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Online Shop</h2>
+          <p>Feminized Sour Rainbow seed packs. Novelty & collectible purposes only.</p>
+        </div>
+
+        <div class="shop-filters">
+          <button class="filter-btn active" data-filter="all">All Packs</button>
+          <button class="filter-btn" data-filter="5">5 Seeds</button>
+          <button class="filter-btn" data-filter="10">10 Seeds</button>
+          <button class="filter-btn" data-filter="20">20 Seeds</button>
+        </div>
+
+        <div class="product-grid" id="shopProducts"></div>
+      </div>
+    </section>
+
+    <!-- STRAIN INFO -->
+    <section id="strain" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>The Sour Rainbow Strain</h2>
+          <p>Genetics, growth notes & sensory profile</p>
+        </div>
+
+        <div class="strain-grid">
+          <div class="strain-card">
+            <h3>Lineage</h3>
+            <ul class="strain-list">
+              <li><strong>Breeder</strong> — OG'naj Genetics</li>
+              <li><strong>Cross</strong> — Rainbow Belts × SourD bx2 (Karma Genetics)</li>
+              <li><strong>Type</strong> — Mostly Indica</li>
+              <li><strong>Sex</strong> — Feminized</li>
+              <li><strong>Photoperiod</strong> — Yes</li>
+            </ul>
+          </div>
+          <div class="strain-card">
+            <h3>Grow Snapshot</h3>
+            <ul class="strain-list">
+              <li><strong>Flowering</strong> — ~63 days (9 weeks)</li>
+              <li><strong>Structure</strong> — Branched, vigorous</li>
+              <li><strong>Color</strong> — Beautiful purple tones late flower</li>
+              <li><strong>Environment</strong> — Indoor preferred / outdoor possible</li>
+              <li><strong>Difficulty</strong> — Intermediate</li>
+            </ul>
+          </div>
+          <div class="strain-card">
+            <h3>Aroma & Flavor</h3>
+            <ul class="strain-list">
+              <li>Sour gas</li>
+              <li>Zkittlez-style candy</li>
+              <li>Tropical fruit notes</li>
+              <li>Diesel backbone</li>
+              <li>Sweet-sour finish</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="disclaimer-box">
+          <h4>Educational & Collectible Use Only</h4>
+          <p>
+            Information on this page is provided for educational and strain-research purposes. 
+            Sour Rainbow Seed Co. sells seeds strictly as novelty, souvenir, and collectible items. 
+            We do not encourage or condone the germination of cannabis seeds where it is illegal. 
+            Always verify and follow the laws of your country, state, and locality.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container about-content">
+        <div class="section-header">
+          <h2>About Sour Rainbow Seed Co.</h2>
+        </div>
+        <div class="about-text">
+          <p>
+            We are a small collective focused on preserving and sharing rare candy-forward genetics. 
+            Sour Rainbow is our flagship offering — a carefully selected expression of Rainbow Belts crossed to a proven SourD bx2 male.
+          </p>
+          <p>
+            Every pack is packaged for collectors and enthusiasts who appreciate the art of cannabis breeding. 
+            We prioritize freshness, accurate labeling, and transparent genetics information.
+          </p>
+          <p>
+            <strong>Our promise:</strong> We only list genetics we stand behind. We ship discreetly. 
+            And we remind every customer that local laws come first.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Contact</h2>
+          <p>Questions about packs, shipping, or genetics?</p>
+        </div>
+        <form class="contact-form" onsubmit="handleContact(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required placeholder="Your name" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required placeholder="you@example.com" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required placeholder="How can we help?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+        <p class="contact-note">This is a demo contact form. In a live store it would connect to your email or CRM.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Cart Drawer -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="cart-close" onclick="toggleCart()" aria-label="Close cart">×</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Your cart is empty.</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="checkout()">Checkout</button>
+      <p class="cart-disclaimer">Demo checkout only. No real payment processing.</p>
+    </div>
+  </aside>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon">🌈</span>
+        <span>Sour Rainbow Seed Co.</span>
+      </div>
+      <p class="footer-legal">
+        © 2026 Sour Rainbow Seed Co. All rights reserved.<br />
+        Seeds sold for novelty, souvenir, and collectible purposes only. 
+        Not for germination where prohibited by law. Buyer assumes all responsibility for legal compliance.
+      </p>
+      <div class="footer-links">
+        <a href="#" onclick="showSection('shop')">Shop</a>
+        <a href="#" onclick="showSection('strain')">Genetics</a>
+        <a href="#" onclick="showSection('contact')">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
