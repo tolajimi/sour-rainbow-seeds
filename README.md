@@ -4,12 +4,6 @@ Vibrant static e-commerce demo for **Sour Rainbow** cannabis seeds (novelty / co
 
 Rainbow Belts × SourD bx2 genetics • Mostly indica • ~63-day flower • Feminized packs
 
-## Live Demo
-
-Once GitHub Pages is enabled (see below):
-
-**https://tolajimi.github.io/sour-rainbow-seeds/**
-
 ## Features
 
 - Responsive dark + rainbow candy theme
@@ -17,36 +11,70 @@ Once GitHub Pages is enabled (see below):
 - Client-side shopping cart (localStorage)
 - Strain info, About, Contact sections
 - Strong legal disclaimers
+- Ready for continuous deployment via **Netlify** (or GitHub Pages)
 
-## Auto-Deploy with GitHub Pages
+---
 
-This is a pure static site (HTML + CSS + JS). Every push to `main` can automatically publish the site.
+## Deploy on Netlify (recommended – continuous from GitHub)
 
-### Enable Pages (one-time)
+This repo is already configured with a `netlify.toml` for a pure static site.
 
-1. Go to the repository: https://github.com/tolajimi/sour-rainbow-seeds
-2. **Settings → Pages**
-3. Under **Source**, select **Deploy from a branch**
-4. Branch: `main` / folder: `/ (root)`
-5. Click **Save**
+### One-time setup (takes ~2 minutes)
 
-GitHub will build and host the site at  
-`https://tolajimi.github.io/sour-rainbow-seeds/`
+1. Go to **[https://app.netlify.com](https://app.netlify.com)** and sign in (or create a free account).
+2. Click **Add new site** → **Import an existing project**.
+3. Choose **GitHub** and authorize Netlify if prompted.
+4. Select the repository: **`tolajimi/sour-rainbow-seeds`**.
+5. Netlify will auto-detect the settings from `netlify.toml`:
+   - **Build command**: (empty – none needed)
+   - **Publish directory**: `.` (root)
+6. Click **Deploy site**.
 
-Future pushes to `main` will automatically update the live site (usually within 1–2 minutes).
+That’s it. Netlify will:
+- Build & publish the site
+- Give you a free `*.netlify.app` URL
+- Automatically redeploy every time you (or anyone) pushes to the `main` branch
 
-### Optional: GitHub Actions (more control)
+### After the first deploy
 
-You can also add a simple workflow for explicit deploys, custom domains, or caching, but the built-in Pages source is sufficient for this project.
+- Rename the site under **Site settings → General → Site details** (e.g. `sour-rainbow-seeds` → becomes `sour-rainbow-seeds.netlify.app`).
+- Optionally add a custom domain under **Domain management**.
+- Every future `git push` to `main` triggers a new production deploy automatically.
+
+---
+
+## Alternative: GitHub Pages
+
+You can also enable GitHub Pages if you prefer:
+
+1. Repo → **Settings → Pages**
+2. Source: **Deploy from a branch** → `main` / `/ (root)`
+3. Save
+
+Live URL will be: `https://tolajimi.github.io/sour-rainbow-seeds/`
+
+---
 
 ## Local development
 
-Just open `index.html` in a browser, or serve the folder:
-
 ```bash
+# just open the file
+open index.html
+
+# or serve it
 npx serve .
 # or
 python -m http.server 8000
+```
+
+## Project structure
+
+```
+├── index.html      # Main site
+├── styles.css      # Theme & layout
+├── script.js       # Cart, filters, navigation
+├── netlify.toml    # Netlify continuous deployment config
+└── README.md
 ```
 
 ## Legal
